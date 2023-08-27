@@ -1,0 +1,27 @@
+<form id="form" class="centered-form">
+    <h2>Ingrese el producto</h2> 
+   
+    <input class="contols" type="text" placeholder="Nombre del producto"  name="nombre" id="nombre" required>
+
+    <input class="contols" type="text" placeholder="DEtalle del producto" name="detalle" id="detalle" required>
+
+    <input class="contols" type="text" placeholder="Stock del producto" name="stock" id="stock" required>
+
+    <input class="contols" type="text" placeholder="Precio del producto" name="precio" id="precio" required>
+
+    <input class="contols" type="text" placeholder="Imagen del producto" name="img" id="img" required>
+
+    <input class="contols" placeholder="Codigo del producto" type="codigo" name="codigo" id="codigo">
+
+    <button class="btn" type="submit" id="add-btn">Registrar nuevo Producto</button>
+    <h2>Eliminar el producto:</h2>
+    <input class="contol" type="number" name="id-prod" id="id-prod" placeholder="Ingrese el ID del producto a eliminar">
+    <button class="btn" type="button" id="delete-btn">Eliminar</button>
+
+</form>
+
+</article>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="./realtime.js"></script>

@@ -1,0 +1,13 @@
+<div class="container my-5">
+    {{this.page}} // {{this.status}}
+    <div class="row">
+        {{#each this.payload}}
+        <div class="card" style="width: 22rem;">
+            <img src="{{img}}" class="img-fluid" alt="{{nombre}}">
+            <div class="card-body text-center">
+                <p class="card-text">{{nombre}}<br><span class="text-danger">${{precio}}</span></p>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
