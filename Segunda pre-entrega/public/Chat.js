@@ -22,4 +22,8 @@ const sendMessage = () => {
 }
 
 const btnSendMessage = document.getElementById("btnSendMessage");
-btnSendMessage.onclick = sendMessage;
+
+btnSendMessage.addEventListener("click", () => {
+    console.log("sisi")
+    sendMessage();
+});

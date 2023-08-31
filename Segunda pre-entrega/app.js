@@ -1,5 +1,7 @@
 import express from "express";
-import handlebars from "express-handlebars";
+import expressHandlebars  from "express-handlebars";
+import Handlebars from "handlebars";
+import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access'
 import { fileURLToPath } from "url";
 import path from "path";
 import viewsRouter from "./routers/views.router.js";
@@ -28,13 +30,14 @@ const puerto = 8080;
   }
 })();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + "/public"));
-
-app.engine("handlebars", handlebars.engine());
-app.set("view engine", "handlebars");
 app.set("views", __dirname + "/views");
+app.engine('handlebars', expressHandlebars.engine({
+    handlebars: allowInsecurePrototypeAccess(Handlebars)
+}));
+app.set("view engine", "handlebars");
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+app.use(express.static(__dirname + "/public"));
 app.use("/", viewsRouter);
 app.use("/products", productsRouter);
 app.use("/carts", cartsRouter);
@@ -69,6 +72,6 @@ socketServer.on("connection", async (socket) => {
     CM.createMessage(data);
     const messages = await CM.getMessages();
     console.log("Mensajes actualizados:", messages);
-    io.emit("messages", messages);
-});
+    socketServer.emit("messages", messages);
+  });
 });

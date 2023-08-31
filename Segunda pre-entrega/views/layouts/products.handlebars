@@ -6,8 +6,11 @@
             <img src="{{img}}" class="img-fluid" alt="{{nombre}}">
             <div class="card-body text-center">
                 <p class="card-text">{{nombre}}<br><span class="text-danger">${{precio}}</span></p>
+                <button class="btn btn-dark" onclick="agregarProductoAlCarrito('{{product._id}}')">Agregar</button>
             </div>
         </div>
         {{/each}}
     </div>
 </div>
+
+<!--<script src="/Products.js"></script>-->
