@@ -1,9 +1,8 @@
 import express from "express";
+import __dirname from "./utils.js";
 import expressHandlebars  from "express-handlebars";
 import Handlebars from "handlebars";
 import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access'
-import { fileURLToPath } from "url";
-import path from "path";
 import viewsRouter from "./routers/views.router.js";
 import { Server } from "socket.io";
 import ProductManager from './dao/models/ProductManager.js';
@@ -12,9 +11,6 @@ import productsRouter from "./routers/products.router.js";
 import cartsRouter from "./routers/carts.router.js";
 import chatManager from "./dao/models/chatMessager.js";
 import { productModel } from "./dao/models/product.model.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const app = express();
 const puerto = 8080;
@@ -37,6 +33,7 @@ app.engine('handlebars', expressHandlebars.engine({
 app.set("view engine", "handlebars");
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use(express.static(__dirname));
 app.use(express.static(__dirname + "/public"));
 app.use("/", viewsRouter);
 app.use("/products", productsRouter);

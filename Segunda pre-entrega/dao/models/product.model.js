@@ -9,6 +9,7 @@ const productsSchema = new mongoose.Schema({
   status: Boolean,
   stock: Number,
   categoria: String,
+  code: String,
   img: Array
 });
 

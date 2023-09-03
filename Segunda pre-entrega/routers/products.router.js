@@ -1,23 +1,43 @@
 import { Router } from "express";
 import ProductManager from "../dao/models/ProductManager.js";
 
-const productsRouter = Router();
+
+const productRouter = Router();
 const productManager = new ProductManager();
 
-productsRouter.get("/", async (req, res) => {
-  const products = await productManager.getProducts(req.query);
+productRouter.get("/products", async (req, res) => {
+  try {
+    const limit = Number(req.query.limit);
+    const products = await productManager.getProducts();
 
-  res.send({products});
+    if (limit) {
+      const productLimit = products.slice(0, limit);
+      res.send(productLimit);
+    } else {
+      res.render("layouts/main", { products });
+    }
+  } catch (error) {
+    console.error("Error al obtener los productos:", error);
+    res.status(500).send("Error al obtener los productos");
+  }
 });
 
-productsRouter.get("/:pid", async (req, res) => {
-  let pid = req.params.pid;
-  const products = await productManager.getProductById(pid);
-  
-  res.send({products});
+productRouter.get("/:pid", async (req, res) => {
+  try {
+    const pid = req.params.pid; 
+    const product = await productManager.getProductsById(pid);
+    if (!product) {
+      res.status(404).send("Producto no encontrado");
+    } else {
+      res.send(product);
+    }
+  } catch (error) {
+    console.error("Error al obtener el producto:", error);
+    res.status(500).send("Error al obtener el producto");
+  }
 });
 
-productsRouter.put("/:pid", async (req, res) => {
+productRouter.put("/:pid", async (req, res) => {
   try {
     const pid = req.params.pid;
     const updatedProduct = req.body;
@@ -32,7 +52,7 @@ productsRouter.put("/:pid", async (req, res) => {
 });
 
 
-productsRouter.post("/", async (req, res) => {
+productRouter.post("/", async (req, res) => {
   let newProduct = req.body;
   try {
     await productManager.addProduct(newProduct);
@@ -43,7 +63,7 @@ productsRouter.post("/", async (req, res) => {
   }
 });
 
-productsRouter.delete("/:pid", async (req, res) => {
+productRouter.delete("/:pid", async (req, res) => {
   let pid = req.params.pid;
   try {
     await productManager.deleteProduct(pid);
@@ -67,6 +87,4 @@ productsRouter.delete("/:pid", async (req, res) => {
   }
 });
 
-
-
-export default productsRouter;
+export default productRouter;

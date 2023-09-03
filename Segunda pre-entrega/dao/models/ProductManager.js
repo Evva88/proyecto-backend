@@ -1,61 +1,7 @@
 import { productModel } from "./product.model.js";
+import mongoose from "mongoose";
 
 class ProductManager {
-
-  async getProducts(params) {
-    let { limit, page, query, sort } = params;
-    limit = limit ? limit : 10;
-    page = page ? page : 1;
-    query = query || {};
-    sort = sort ? (sort == "asc" ? 1 : -1) : 0;
-
-    const filter = query.categoria ? { categoria: query.categoria } : {};
-    let products = await productModel.paginate(filter, {
-      limit: limit,
-      page: page,
-      sort: { precio: sort },
-  });
-
-   let status = products ? "success" : "error";
-
-    let prevLink = products.hasPrevPage
-      ? "http://localhost:8080/products?limit=" +
-        limit +
-        "&page=" +
-        products.prevPage
-      : null;
-    let nextLink = products.hasNextPage
-      ? "http://localhost:8080/products?limit=" +
-        limit +
-        "&page=" +
-        products.nextPage
-      : null;
-
-    products = {
-      status: status,
-      payload: products.docs,
-      prevPage: products.prevPage,
-      nextPage: products.nextPage,
-      page: products.page,
-      hasPrevPage: products.hasPrevPage,
-      hasNextPage: products.hasNextPage,
-      prevLink: prevLink,
-      nextLink: nextLink,
-    };
-
-    return products;
-  }
-
-  async getProductById(id) {
-    if (this.validateId(id)) {
-      return (await productModel.findOne({ _id: id }).lean()) || null;
-    } else {
-      console.log("Not found!");
-
-      return null;
-    }
-  }
-
   async addProduct(product) {
     try {
         if (await this.validateCode(product.code)) {
@@ -73,48 +19,23 @@ class ProductManager {
     }
 }
 
-  async validateCode(code) {
-    try {
-      const validateProduct = await productModel.findOne({ code: code }).lean();
-
-      if (!validateProduct) {
-        console.log(`Not Found: Error al validar`);
-      } else {
-        console.log(
-          `El producto con el code ${code} fue encontrado en nuestra base de datos`
-        );
-        return validateProduct;
+async updateProduct(id, product) {
+  try {
+      if (this.validateId(id)) {   
+          if (await this.getProductById(id)) {
+              await productModel.updateOne({_id:id}, product);
+              console.log("Product updated!");
+  
+              return true;
+          }
       }
-    } catch (error) {
-      console.log(error);
-    }
+      
+      return false;
+  } catch (error) {
+      console.log("Not found!");
+
+      return false;
   }
-
-  async updateProduct(id, product) {
-    try {
-        if (this.validateId(id)) {   
-            if (await this.getProductById(id)) {
-                await productModel.updateOne({_id:id}, product);
-                console.log("Product updated!");
-    
-                return true;
-            }
-        }
-        
-        return false;
-    } catch (error) {
-        console.log("Not found!");
-
-        return false;
-    }
-}
-
-  validateId(id) {
-    return id.length === 24 ? true : false;
-}
-
-  async validateCode(code) {
-    return await productModel.findOne({code:code}) || false;
 }
 
 async deleteProduct(id) {
@@ -135,6 +56,75 @@ async deleteProduct(id) {
       return false;
   }
 }
+
+async getProducts(params = {}) {
+    let { limit = 10, page = 1, query = {}, sort = {} } = params;
+    console.log("Query object:", query, "Type:", typeof query);
+
+    sort = sort ? (sort === "asc" ? { price: 1 } : { price: -1 }) : {};
+
+    try {
+      let products = await productModel.paginate(query, {
+        limit: limit,
+        page: page,
+        sort: sort,
+        lean: true,
+      });
+      let status = products ? "success" : "error";
+      let prevLink = products.hasPrevPage
+        ? "http://localhost:8002/products?limit=" +
+          limit +
+          "&page=" +
+          products.prevPage
+        : null;
+      let nextLink = products.hasNextPage
+        ? "http://localhost:8002/products?limit=" +
+          limit +
+          "&page=" +
+          products.nextPage
+        : null;
+
+      products = {
+        status: status,
+        payload: products.docs,
+        prevPage: products.prevPage,
+        nextPage: products.nextPage,
+        page: products.page,
+        hasPrevPage: products.hasPrevPage,
+        hasNextPage: products.hasNextPage,
+        prevLink: prevLink,
+        nextLink: nextLink,
+      };
+
+      console.log(products);
+      return products;
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      return {
+        status: "error",
+        payload: [],
+      };
+    }
+  }
+async getProductById(id) {
+  if (this.validateId(id)) {
+      return await productModel.findOne({_id:id}).lean() || null;
+  } else {
+      console.log("Not found!");
+      
+      return null;
+  }
 }
+
+validateId(id) {
+  return id.length === 24 ? true : false;
+}
+
+async validateCode(code) {
+  return await productModel.findOne({code:code}) || false;
+}
+}
+
+
 
 export default ProductManager;
