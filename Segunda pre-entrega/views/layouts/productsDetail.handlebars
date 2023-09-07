@@ -28,30 +28,27 @@
             </li>
         </ul>
     </div>
-<div class="form">
-    <div class="container">
-        <div class="row">
-            <h1 class="col-md-4 offset-md-4">Chat</h1>
-            <div id="messages" class="col-md-4"></div>
-            <div class="col-md-4 offset-md-2">
-                <div class="mb-3">
-                    <label for="user" class="form-label"></label>
-                    <input type="text" placeholder="usuario" class="form-control" id="user">
+    <div class="product-detail-container">
+        <div class="details">
+            <div class="imgBx">
+                <img src={{product.img}} width="150" />
+            </div>
+            <div class="contentBx">
+                <h1>{{product.nombre}}</h1>
+                <p>{{product.detalle}}</p>
+                <div class="color">
+                    <p>Precio: {{product.precio}}</p>
                 </div>
-                <div class="mb-3">
-                    <label for="message" class="form-label"></label>
-                    <input type="text" placeholder="Menssage" class="form-control" id="message">
-                </div>
-                <button type="button" class="btn" id="btnSendMessage">Enviar</button>
+                <p><button type="button" id="addCart" class="btn"
+                        onclick="agregarProductoAlCarrito('{{product._id}}')">Agreagar al carrito</button></p>
             </div>
         </div>
     </div>
-</div>
-
+    </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
-<script src="socket.io/socket.io.js"></script>
-<script src="./js/Chat.js"></script>
+<script src="./js/Carts.js"></script>
+
 </html>

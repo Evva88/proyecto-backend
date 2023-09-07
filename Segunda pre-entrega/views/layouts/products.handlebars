@@ -1,35 +1,34 @@
- <div class="row my-5">
-        <div class="col">
-            <nav>
-                <ul class="pagination justify-content-center">
-                    {{#if products.hasPrevPage}}
-                        <li class="page-item">
-                            <a class="page-link" href="{{products.prevLink}}"><<</a>
-                        </li>
-                    {{/if}}
-                    {{#if products.hasPrevPage}}
-                        <li class="page-item">
-                            <a class="page-link" href="{{products.prevLink}}">{{products.prevPage}}</a>
-                        </li>    
-                    {{/if}}
-                    <li class="page-item">
-                        <a class="page-link">{{products.page}}</a>
-                    </li>
-                    {{#if products.hasNextPage}}
-                        <li class="page-item">
-                            <a class="page-link" href="{{products.nextLink}}">{{products.nextPage}}</a>
-                        </li>    
-                    {{/if}}
-                    {{#if products.hasNextPage}}
-                        <li class="page-item">
-                            <a class="page-link" href="{{products.nextLink}}">>></a>
-                        </li>
-                    {{/if}}
-                </ul>
-            </nav>
-        </div>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>carrito</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <link rel="stylesheet" href="./color.css">
+</head>
+<body>
+  <div class="container">
+    <ul class="nav">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="/login">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/registro">Registrate</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/perfil">Tu Perfil</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/chat">Chat</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/realtimeproducts">Formulario</a>
+      </li> 
+    </ul>
   </div>
-
+   <div class="container">
+        <div class="user">
+            <h2>Bienvenido, {{user.role}}:{{user.first_name}}!</h2>
+        </div>
 <div class="container my-5">
     <div class="row">
         {{#each this.payload}}
@@ -37,11 +36,13 @@
             <img src="{{img}}" class="img-fluid" alt="{{nombre}}">
             <div class="card-body text-center">
                 <p class="card-text">{{nombre}}<br><span class="text-danger">${{precio}}</span></p>
-                <button class="btn btn-dark" onclick="agregarProductoAlCarrito('{{product._id}}')">Agregar</button>
+                <button class="btn btn-dark" onclick="addProduct('{{product._id}}')">Agregar</button>
             </div>
         </div>
         {{/each}}
     </div>
 </div>
-
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 <script src="./js/Carts.js"></script>
+</html>

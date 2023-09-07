@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html>
 
 <head>
     <title>Productos</title>
@@ -12,48 +10,6 @@
 
 <body>
     {{{body}}}
-    
-   <div class="container">
-    <div class="row">
-        {{#each products.payload}}
-           <div class="card" style="width: 22rem;">
-            <img src="{{img}}" class="img-fluid" alt="{{nombre}}">
-                </div>
-            
-        {{/each}}
-    </div>
-    <div class="row my-5">
-        <div class="col">
-            <nav>
-                <ul class="pagination justify-content-center">
-                    {{#if products.hasPrevPage}}
-                        <li class="page-item">
-                            <a class="page-link" href="{{products.prevLink}}"></a>
-                        </li>
-                    {{/if}}
-                    {{#if products.hasPrevPage}}
-                        <li class="page-item">
-                            <a class="page-link" href="{{products.prevLink}}">{{products.prevPage}}</a>
-                        </li>    
-                    {{/if}}
-                    <li class="page-item">
-                        <a class="page-link">{{products.page}}</a>
-                    </li>
-                    {{#if products.hasNextPage}}
-                        <li class="page-item">
-                            <a class="page-link" href="{{products.nextLink}}">{{products.nextPage}}</a>
-                        </li>    
-                    {{/if}}
-                    {{#if products.hasNextPage}}
-                        <li class="page-item">
-                            <a class="page-link" href="{{products.nextLink}}">>></a>
-                        </li>
-                    {{/if}}
-                </ul>
-            </nav>
-        </div>
-    </div>
-</div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"

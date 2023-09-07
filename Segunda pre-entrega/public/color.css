@@ -19,11 +19,11 @@ body {
     word-spacing: 1px;
   }
   
-  img {
+  .img-fluid {
     width: 250px;
     height: 350px;
   }
-  h1 {
+  h1, h2 {
     text-align: center;
     color: black;
   }
