@@ -1,5 +1,36 @@
+ <div class="row my-5">
+        <div class="col">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    {{#if products.hasPrevPage}}
+                        <li class="page-item">
+                            <a class="page-link" href="{{products.prevLink}}"><<</a>
+                        </li>
+                    {{/if}}
+                    {{#if products.hasPrevPage}}
+                        <li class="page-item">
+                            <a class="page-link" href="{{products.prevLink}}">{{products.prevPage}}</a>
+                        </li>    
+                    {{/if}}
+                    <li class="page-item">
+                        <a class="page-link">{{products.page}}</a>
+                    </li>
+                    {{#if products.hasNextPage}}
+                        <li class="page-item">
+                            <a class="page-link" href="{{products.nextLink}}">{{products.nextPage}}</a>
+                        </li>    
+                    {{/if}}
+                    {{#if products.hasNextPage}}
+                        <li class="page-item">
+                            <a class="page-link" href="{{products.nextLink}}">>></a>
+                        </li>
+                    {{/if}}
+                </ul>
+            </nav>
+        </div>
+  </div>
+
 <div class="container my-5">
-    {{this.page}} // {{this.status}}
     <div class="row">
         {{#each this.payload}}
         <div class="card" style="width: 22rem;">
@@ -13,4 +44,4 @@
     </div>
 </div>
 
-<<script src="/Products.js"></script>
+<script src="./js/Carts.js"></script>

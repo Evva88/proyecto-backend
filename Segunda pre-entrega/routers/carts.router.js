@@ -37,7 +37,7 @@ cartsRouter.post("/", async (req, res) => {
     const pid = req.params.pid;
     console.log("cid:", cid);
     console.log("pid:", pid);
-    const result = await CM.addProductToCart(cid, pid);
+    const result = await CM.addProduct(cid, pid);
   
     if (result) {
       res.send({ status: "ok", message: "El producto se agregó correctamente!" });
@@ -71,7 +71,7 @@ cartsRouter.post("/", async (req, res) => {
   cartsRouter.delete("/:cid/products/:pid", async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
-    const result = await CM.deleteProductFromCart(cid, pid);
+    const result = await CM.deleteProducts(cid, pid);
   
     if (result) {
       res.send({
@@ -88,7 +88,7 @@ cartsRouter.post("/", async (req, res) => {
   
   cartsRouter.delete("/:cid", async (req, res) => {
     const cid = req.params.cid;
-    const result = await CM.deleteProductsFromCart(cid);
+    const result = await CM.deleteProducts(cid);
   
     if (result) {
       res.send({ status: "ok", message: "El carrito se vació correctamente!" });

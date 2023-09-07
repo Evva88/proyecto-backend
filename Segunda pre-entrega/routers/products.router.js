@@ -5,36 +5,17 @@ import ProductManager from "../dao/models/ProductManager.js";
 const productRouter = Router();
 const productManager = new ProductManager();
 
-productRouter.get("/products", async (req, res) => {
-  try {
-    const limit = Number(req.query.limit);
-    const products = await productManager.getProducts();
+productRouter.get("/", async (req, res) => {
+  const products = await productManager.getProducts(req.query);
 
-    if (limit) {
-      const productLimit = products.slice(0, limit);
-      res.send(productLimit);
-    } else {
-      res.render("layouts/main", { products });
-    }
-  } catch (error) {
-    console.error("Error al obtener los productos:", error);
-    res.status(500).send("Error al obtener los productos");
-  }
+  res.send({products});
 });
 
 productRouter.get("/:pid", async (req, res) => {
-  try {
-    const pid = req.params.pid; 
-    const product = await productManager.getProductsById(pid);
-    if (!product) {
-      res.status(404).send("Producto no encontrado");
-    } else {
-      res.send(product);
-    }
-  } catch (error) {
-    console.error("Error al obtener el producto:", error);
-    res.status(500).send("Error al obtener el producto");
-  }
+  let pid = req.params.pid;
+  const products = await productManager.getProductById(pid);
+  
+  res.send({products});
 });
 
 productRouter.put("/:pid", async (req, res) => {
@@ -65,25 +46,12 @@ productRouter.post("/", async (req, res) => {
 
 productRouter.delete("/:pid", async (req, res) => {
   let pid = req.params.pid;
-  try {
-    await productManager.deleteProduct(pid);
-    res.send({
-      status: "ok",
-      message: "El Producto se eliminó correctamente!",
-    });
-  } catch (error) {
-    if (error.message === "Producto no encontrado") {
-      res.status(404).send({
-        status: "error",
-        message:
-          "Error! No se pudo eliminar el Producto. Producto no encontrado!",
-      });
-    } else {
-      res.status(500).send({
-        status: "error",
-        message: "Error! No se pudo eliminar el Producto!",
-      });
-    }
+  const result = await productManager.deleteProduct(pid)
+
+  if (result) {
+      res.send({status:"ok", message:"El Producto se eliminó correctamente!"});
+  } else {
+      res.status(500).send({status:"error", message:"Error! No se pudo eliminar el Producto!"});
   }
 });
 

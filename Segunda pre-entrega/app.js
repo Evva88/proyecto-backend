@@ -7,11 +7,17 @@ import viewsRouter from "./routers/views.router.js";
 import { Server } from "socket.io";
 import ProductManager from './dao/models/ProductManager.js';
 import mongoose from "mongoose";
+import MongoStore from "connect-mongo";
 import productsRouter from "./routers/products.router.js";
 import cartsRouter from "./routers/carts.router.js";
 import chatManager from "./dao/models/chatMessager.js";
 import { productModel } from "./dao/models/product.model.js";
+import sessionRouters from "./routers/sessions.routers.js"
+import session from "express-session";
+//import FileStore  from "session-file-store";
+import cookieParser from "cookie-parser";
 
+//const fileStore = FileStore(session);
 const app = express();
 const puerto = 8080;
 
@@ -33,11 +39,34 @@ app.engine('handlebars', expressHandlebars.engine({
 app.set("view engine", "handlebars");
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(express.static(__dirname));
 app.use(express.static(__dirname + "/public"));
+
+app.use(cookieParser());
+app.use(session({
+  store: MongoStore.create({
+    mongoUrl: "mongodb+srv://evavelli:eaL2rjVl7cD3cYwA@eva.l7bdppr.mongodb.net/ecommerce?retryWrites=true&w=majority",
+    ttl: 3000
+  }),
+  secret: 'L1m0n',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } 
+}));
+
 app.use("/", viewsRouter);
-app.use("/products", productsRouter);
-app.use("/carts", cartsRouter);
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouter);
+app.use("/api/sessions/", sessionRouters);
+app.get("/session", async(req, res) => {
+
+  if (req.session.contador) {
+      req.session.contador++;
+      res.send("Visitaste el Sitio Web: " + req.session.contador + " veces!");
+  } else {
+      req.session.contador = 1;
+      res.send("Hola!!");
+  }
+})
 
 const httpServer = app.listen(puerto, () => {
   console.log(`Servidor escuchando en puerto ${puerto}`);

@@ -1,4 +1,6 @@
 const socket = io(); 
+
+
 socket.on("vistaProductos", (productos) => {
   updateProductList(productos);
   });
@@ -30,7 +32,7 @@ socket.on("vistaProductos", (productos) => {
   div.innerHTML= productos;
   }
 
-let form = document.getElementById("formProduct");
+let form = document.getElementById("form");
 form.addEventListener("submit", (data) =>{
   data.preventDefault();
 

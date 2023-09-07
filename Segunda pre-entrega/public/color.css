@@ -28,6 +28,11 @@ body {
     color: black;
   }
   
+  p {
+    text-align: center;
+    color: black;
+  }
+
   .btn {
     margin-top: 20px;
     background-color: #fcbdfe;
@@ -35,8 +40,8 @@ body {
   }
   
   form{
-    background-color: #fcbdfe;
     display: block;
+    margin-top: 70px;
   }
 
   .centered-form {
@@ -58,7 +63,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #fcbdfe;
   text-align: center;
   margin: 0 auto;
 }
+
